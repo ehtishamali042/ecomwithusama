@@ -12,17 +12,27 @@ import { createClient, SupabaseClient } from "@supabase/supabase-js";
 export class SupabaseService implements OnModuleInit {
   private supabase: SupabaseClient;
   private supabaseUrl: string;
-  private supabaseKey: string;
+  private supabaseSecretKey: string;
 
   constructor(private configService: ConfigService) {}
 
   onModuleInit() {
     this.supabaseUrl = this.configService.getOrThrow<string>("SUPABASE_URL");
-    this.supabaseKey = this.configService.getOrThrow<string>(
-      "SUPABASE_SERVICE_ROLE_KEY",
-    );
+    // Supabase renamed "service_role" key to "secret key".
+    // Prefer the new env var but keep legacy fallback for compatibility.
+    const secretKey =
+      this.configService.get<string>("SUPABASE_SECRET_KEY") ??
+      this.configService.get<string>("SUPABASE_SERVICE_ROLE_KEY");
 
-    this.supabase = createClient(this.supabaseUrl, this.supabaseKey, {
+    if (!secretKey) {
+      throw new Error(
+        'Missing Supabase secret key. Set "SUPABASE_SECRET_KEY" (recommended) or legacy "SUPABASE_SERVICE_ROLE_KEY".',
+      );
+    }
+
+    this.supabaseSecretKey = secretKey;
+
+    this.supabase = createClient(this.supabaseUrl, this.supabaseSecretKey, {
       auth: {
         autoRefreshToken: false,
         persistSession: false,
@@ -43,7 +53,7 @@ export class SupabaseService implements OnModuleInit {
    * Useful for operations that require user context (e.g., user-specific queries).
    */
   getUserClient(accessToken: string): SupabaseClient {
-    return createClient(this.supabaseUrl, this.supabaseKey, {
+    return createClient(this.supabaseUrl, this.supabaseSecretKey, {
       auth: {
         autoRefreshToken: false,
         persistSession: false,
@@ -60,10 +70,12 @@ export class SupabaseService implements OnModuleInit {
    * Get Supabase configuration values.
    * Useful for services that need to create their own clients.
    */
-  getConfig(): { url: string; serviceRoleKey: string } {
+  getConfig(): { url: string; secretKey: string; serviceRoleKey: string } {
     return {
       url: this.supabaseUrl,
-      serviceRoleKey: this.supabaseKey,
+      // Prefer `secretKey` going forward. `serviceRoleKey` is kept for backwards compatibility.
+      secretKey: this.supabaseSecretKey,
+      serviceRoleKey: this.supabaseSecretKey,
     };
   }
 }

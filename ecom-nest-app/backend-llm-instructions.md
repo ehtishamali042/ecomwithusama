@@ -126,7 +126,7 @@ src/
 
 ```env
 SUPABASE_URL=https://xxx.supabase.co
-SUPABASE_SERVICE_ROLE_KEY=xxx
+SUPABASE_SECRET_KEY=xxx
 MONGODB_URI=mongodb://localhost:27017/ecomapp
 PORT=3000
 FRONTEND_URL=http://localhost:3001
