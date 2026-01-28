@@ -2,9 +2,14 @@ const API_BASE_URL = "http://localhost:3000/api"; // Adjust to your NestJS backe
 
 class Fetcher {
   private baseURL: string;
+  private accessToken: string | null = null;
 
   constructor(baseURL: string) {
     this.baseURL = baseURL;
+  }
+
+  setAccessToken(token: string | null) {
+    this.accessToken = token;
   }
 
   private async request<T>(
@@ -12,11 +17,19 @@ class Fetcher {
     options: RequestInit = {},
   ): Promise<T> {
     const url = `${this.baseURL}${endpoint}`;
+    const headers: Record<string, string> = {
+      "Content-Type": "application/json",
+      ...(options.headers
+        ? Object.fromEntries(
+            Object.entries(options.headers).map(([k, v]) => [k, String(v)]),
+          )
+        : {}),
+    };
+    if (this.accessToken) {
+      headers["Authorization"] = `Bearer ${this.accessToken}`;
+    }
     const config: RequestInit = {
-      headers: {
-        "Content-Type": "application/json",
-        ...options.headers,
-      },
+      headers,
       ...options,
     };
 
@@ -63,5 +76,11 @@ class Fetcher {
 }
 
 const fetcher = new Fetcher(API_BASE_URL);
+// On module load, set accessToken from localStorage if present
+const token =
+  typeof window !== "undefined" ? localStorage.getItem("accessToken") : null;
+if (token) {
+  fetcher.setAccessToken(token);
+}
 
 export default fetcher;

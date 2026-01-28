@@ -20,8 +20,7 @@ export interface AuthResponse {
     id: string;
     email: string;
   };
-  accessToken: string;
-  refreshToken: string;
+  session: { accessToken: string; refreshToken: string };
 }
 
 export interface RegisterResponse {
