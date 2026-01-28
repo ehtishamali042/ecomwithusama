@@ -23,81 +23,79 @@ const LoginScreen = () => {
     e.preventDefault();
     try {
       const response = await loginMutation.mutateAsync({ email, password });
-      // Assuming response has user data and token
       setUser(response.user);
       navigate("/dashboard");
-    } catch (error) {
-      console.error("Login failed", error);
+    } catch {
+      // Error handled in UI
     }
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-gray-100 to-gray-200">
-      <Card className="w-full max-w-md p-6 rounded-2xl shadow-xl bg-white">
-        <CardHeader className="pb-2">
-          <CardTitle className="text-center text-2xl font-bold">
-            Login
-          </CardTitle>
-          <CardDescription className="text-center text-sm text-gray-500">
-            Enter your credentials to access the dashboard.
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <form onSubmit={handleSubmit} className="space-y-6">
-            <div className="space-y-2">
-              <label
-                htmlFor="email"
-                className="block text-sm font-medium text-gray-700"
+    <div className="min-h-screen flex items-center justify-center bg-base-200 px-4">
+      <div className="w-full max-w-md">
+        <Card>
+          <CardHeader className="space-y-2">
+            <CardTitle className="text-3xl font-bold">Welcome back</CardTitle>
+            <CardDescription>Sign in to your admin dashboard</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <div className="form-control">
+                <label htmlFor="email" className="label">
+                  <span className="label-text">Email</span>
+                </label>
+                <Input
+                  id="email"
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                  placeholder="you@example.com"
+                  autoFocus
+                />
+              </div>
+
+              <div className="form-control">
+                <label htmlFor="password" className="label">
+                  <span className="label-text">Password</span>
+                </label>
+                <Input
+                  id="password"
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                  placeholder="••••••••"
+                />
+              </div>
+
+              {loginMutation.isError && (
+                <div className="alert alert-error py-2 text-sm">
+                  <span>
+                    {loginMutation.error?.message ||
+                      "Login failed. Please try again."}
+                  </span>
+                </div>
+              )}
+
+              <Button
+                type="submit"
+                className="w-full"
+                disabled={loginMutation.isPending}
               >
-                Email
-              </label>
-              <Input
-                id="email"
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-                className="mt-1 px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                placeholder="you@example.com"
-                autoFocus
-              />
-            </div>
-            <div className="space-y-2">
-              <label
-                htmlFor="password"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Password
-              </label>
-              <Input
-                id="password"
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-                className="mt-1 px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                placeholder="••••••••"
-              />
-            </div>
-            <Button
-              type="submit"
-              className="w-full py-2 rounded-md bg-blue-600 text-white font-semibold hover:bg-blue-700 transition duration-150"
-              disabled={loginMutation.isPending}
-            >
-              {loginMutation.isPending ? "Logging in..." : "Login"}
-            </Button>
-          </form>
-          <p className="mt-6 text-center text-sm text-gray-600">
-            Don't have an account?{" "}
-            <Link
-              to="/register"
-              className="text-blue-600 hover:underline font-medium"
-            >
-              Register
-            </Link>
-          </p>
-        </CardContent>
-      </Card>
+                {loginMutation.isPending ? "Logging in..." : "Login"}
+              </Button>
+            </form>
+
+            <p className="mt-6 text-center text-sm">
+              Don't have an account?{" "}
+              <Link to="/register" className="link link-primary font-medium">
+                Register
+              </Link>
+            </p>
+          </CardContent>
+        </Card>
+      </div>
     </div>
   );
 };

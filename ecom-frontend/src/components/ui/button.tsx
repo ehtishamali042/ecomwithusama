@@ -10,19 +10,18 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     { className = "", variant = "default", size = "default", ...props },
     ref,
   ) => {
-    const baseClasses =
-      "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50";
+    const baseClasses = "btn no-animation";
 
-    const variantClasses = {
-      default: "bg-blue-600 text-white shadow hover:bg-blue-700",
-      outline: "border border-gray-300 bg-white shadow-sm hover:bg-gray-50",
-      ghost: "hover:bg-gray-100",
+    const variantClasses: Record<NonNullable<ButtonProps["variant"]>, string> = {
+      default: "btn-primary",
+      outline: "btn-outline",
+      ghost: "btn-ghost",
     };
 
-    const sizeClasses = {
-      default: "h-9 px-4 py-2",
-      sm: "h-8 rounded-md px-3 text-xs",
-      lg: "h-10 rounded-md px-8",
+    const sizeClasses: Record<NonNullable<ButtonProps["size"]>, string> = {
+      default: "btn-md",
+      sm: "btn-sm",
+      lg: "btn-lg",
     };
 
     const classes = `${baseClasses} ${variantClasses[variant]} ${sizeClasses[size]} ${className}`;

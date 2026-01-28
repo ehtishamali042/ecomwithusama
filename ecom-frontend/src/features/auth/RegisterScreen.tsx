@@ -33,71 +33,62 @@ const RegisterScreen = () => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-gray-100 to-gray-200">
-      <Card className="w-full max-w-md p-6 rounded-2xl shadow-xl bg-white">
-        <CardHeader>
-          <CardTitle className="text-center text-2xl font-bold">
-            Register
-          </CardTitle>
-          <CardDescription className="text-center text-sm text-gray-500">
-            Create a new account.
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <form onSubmit={handleSubmit} className="space-y-6">
-            <div className="space-y-2">
-              <label
-                htmlFor="email"
-                className="block text-sm font-medium text-gray-700"
+    <div className="min-h-screen flex items-center justify-center bg-base-200 px-4">
+      <div className="w-full max-w-md">
+        <Card>
+          <CardHeader className="items-center gap-2">
+            <CardTitle className="text-3xl font-extrabold text-center">
+              Create an account
+            </CardTitle>
+            <CardDescription className="text-center text-base opacity-80">
+              Join the dashboard to manage your store.
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <form onSubmit={handleSubmit} className="space-y-6 mt-2">
+              <div className="form-control">
+                <label htmlFor="email" className="label">
+                  <span className="label-text">Email</span>
+                </label>
+                <Input
+                  id="email"
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                  placeholder="you@example.com"
+                />
+              </div>
+              <div className="form-control">
+                <label htmlFor="password" className="label">
+                  <span className="label-text">Password</span>
+                </label>
+                <Input
+                  id="password"
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                  placeholder="••••••••"
+                />
+              </div>
+              <Button
+                type="submit"
+                className="w-full"
+                disabled={registerMutation.isPending}
               >
-                Email
-              </label>
-              <Input
-                id="email"
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-                className="mt-1 px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                placeholder="you@example.com"
-              />
-            </div>
-            <div className="space-y-2">
-              <label
-                htmlFor="password"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Password
-              </label>
-              <Input
-                id="password"
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-                className="mt-1 px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                placeholder="••••••••"
-              />
-            </div>
-            <Button
-              type="submit"
-              className="w-full py-2 rounded-md bg-blue-600 text-white font-semibold hover:bg-blue-700 transition duration-150"
-              disabled={registerMutation.isPending}
-            >
-              {registerMutation.isPending ? "Registering..." : "Register"}
-            </Button>
-          </form>
-          <p className="mt-6 text-center text-sm text-gray-600">
-            Already have an account?{" "}
-            <Link
-              to="/login"
-              className="text-blue-600 hover:underline font-medium"
-            >
-              Login
-            </Link>
-          </p>
-        </CardContent>
-      </Card>
+                {registerMutation.isPending ? "Registering..." : "Register"}
+              </Button>
+            </form>
+            <p className="mt-8 text-center text-sm">
+              Already have an account?{" "}
+              <Link to="/login" className="link link-primary font-medium">
+                Login
+              </Link>
+            </p>
+          </CardContent>
+        </Card>
+      </div>
     </div>
   );
 };

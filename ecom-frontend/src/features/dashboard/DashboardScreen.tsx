@@ -26,9 +26,9 @@ const DashboardScreen = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 p-4">
-      <div className="max-w-4xl mx-auto">
-        <div className="flex justify-between items-center mb-8">
+    <div className="min-h-screen bg-base-200 p-4">
+      <div className="max-w-4xl mx-auto space-y-6">
+        <div className="flex justify-between items-center">
           <h1 className="text-3xl font-bold">Dashboard</h1>
           <Button onClick={handleLogout} disabled={logoutMutation.isPending}>
             {logoutMutation.isPending ? "Logging out..." : "Logout"}
