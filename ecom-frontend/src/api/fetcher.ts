@@ -1,15 +1,16 @@
-const API_BASE_URL = "http://localhost:3000/api"; // Adjust to your NestJS backend URL
+import { authStorage } from "@/service/authStorage";
+
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 class Fetcher {
   private baseURL: string;
-  private accessToken: string | null = null;
 
   constructor(baseURL: string) {
     this.baseURL = baseURL;
   }
 
-  setAccessToken(token: string | null) {
-    this.accessToken = token;
+  private getAccessToken(): string | null {
+    return authStorage.getToken();
   }
 
   private async request<T>(
@@ -25,8 +26,9 @@ class Fetcher {
           )
         : {}),
     };
-    if (this.accessToken) {
-      headers["Authorization"] = `Bearer ${this.accessToken}`;
+    const token = this.getAccessToken();
+    if (token) {
+      headers["Authorization"] = `Bearer ${token}`;
     }
     const config: RequestInit = {
       headers,
@@ -76,11 +78,4 @@ class Fetcher {
 }
 
 const fetcher = new Fetcher(API_BASE_URL);
-// On module load, set accessToken from localStorage if present
-const token =
-  typeof window !== "undefined" ? localStorage.getItem("accessToken") : null;
-if (token) {
-  fetcher.setAccessToken(token);
-}
-
 export default fetcher;

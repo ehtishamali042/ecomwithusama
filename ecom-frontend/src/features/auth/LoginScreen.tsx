@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useLogin } from "../../react-query/mutations/auth";
 import { useAuthStore } from "../../store/authStore";
-import fetcher from "../../api/fetcher";
+import { authStorage } from "../../service/authStorage";
 import { Button } from "../../components/ui/button";
 import { Input } from "../../components/ui/input";
 import {
@@ -26,8 +26,7 @@ const LoginScreen = () => {
       const response = await loginMutation.mutateAsync({ email, password });
       setUser(response.user);
       if (response?.session?.accessToken) {
-        localStorage.setItem("accessToken", response.session.accessToken);
-        fetcher.setAccessToken(response.session.accessToken);
+        authStorage.setToken(response.session.accessToken);
       }
       navigate("/dashboard");
     } catch {

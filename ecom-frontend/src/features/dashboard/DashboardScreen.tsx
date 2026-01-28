@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { useLogout } from "../../react-query/mutations/auth";
-import fetcher from "../../api/fetcher";
+import { authStorage } from "../../service/authStorage";
 import { useAuthStore } from "../../store/authStore";
 import { Button } from "../../components/ui/button";
 import {
@@ -20,9 +20,8 @@ const LogoutButton = () => {
     try {
       await logoutMutation.mutateAsync();
       logout();
-      // Remove accessToken from localStorage and fetcher
-      localStorage.removeItem("accessToken");
-      fetcher.setAccessToken(null);
+      // Remove accessToken using authStorage
+      authStorage.clearToken();
       navigate("/login");
     } catch (error) {
       console.error("Logout failed", error);
