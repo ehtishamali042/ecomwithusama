@@ -4,7 +4,7 @@ import { Suspense, lazy } from "react";
 // Lazy load pages
 const LoginPage = lazy(() => import("./pages/auth/login"));
 const RegisterPage = lazy(() => import("./pages/auth/register"));
-const DashboardPage = lazy(() => import("./pages/dashboard"));
+const DashboardRoutes = lazy(() => import("./pages/dashboard"));
 
 function App() {
   return (
@@ -13,7 +13,7 @@ function App() {
         <Routes>
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
-          <Route path="/dashboard" element={<DashboardPage />} />
+          <Route path="/dashboard/*" element={<DashboardRoutes />} />
           <Route path="/" element={<LoginPage />} /> {/* Default to login */}
         </Routes>
       </Suspense>
