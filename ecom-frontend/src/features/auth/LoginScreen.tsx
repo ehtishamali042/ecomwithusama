@@ -82,8 +82,9 @@ const LoginScreen = () => {
                 type="submit"
                 className="w-full"
                 disabled={loginMutation.isPending}
+                isLoading={loginMutation.isPending}
               >
-                {loginMutation.isPending ? "Logging in..." : "Login"}
+                Login
               </Button>
             </form>
 

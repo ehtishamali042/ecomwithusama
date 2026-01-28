@@ -1,0 +1,17 @@
+.spinner {
+  display: inline-block;
+  width: 1.75em;
+  height: 1.75em;
+  vertical-align: middle;
+}
+.spinnerCircle {
+  animation: spinner-rotate 0.8s linear infinite;
+  stroke: #14b8a6; /* Tailwind's teal-400 (turquoise) */
+  stroke-width: 2.5;
+  fill: none;
+}
+@keyframes spinner-rotate {
+  100% {
+    transform: rotate(360deg);
+  }
+}

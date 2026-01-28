@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useRegister } from "../../react-query/mutations/auth";
 import { Button } from "../../components/ui/button";
+import Spinner from "../../assets/svg/Spinner";
 import { Input } from "../../components/ui/input";
 import {
   Card,
@@ -77,7 +78,7 @@ const RegisterScreen = () => {
                 className="w-full"
                 disabled={registerMutation.isPending}
               >
-                {registerMutation.isPending ? "Registering..." : "Register"}
+                {registerMutation.isPending ? <Spinner /> : "Register"}
               </Button>
             </form>
             <p className="mt-8 text-center text-sm">
