@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { useRegister } from "../../react-query/mutations/auth";
+import { useRegisterMutation } from "../../react-query/mutations/auth";
 import { Button } from "../../components/ui/button";
 import Spinner from "../../assets/svg/Spinner";
 import { Input } from "../../components/ui/input";
@@ -17,7 +17,7 @@ const RegisterScreen = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
-  const registerMutation = useRegister();
+  const registerMutation = useRegisterMutation();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

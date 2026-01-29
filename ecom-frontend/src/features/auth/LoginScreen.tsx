@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { useLogin } from "../../react-query/mutations/auth";
+import { useLoginMutation } from "../../react-query/mutations/auth";
 import { useAuthStore } from "../../store/authStore";
 import { authStorage } from "../../service/authStorage";
 import { Button } from "../../components/ui/button";
@@ -18,7 +18,7 @@ const LoginScreen = () => {
   const [password, setPassword] = useState("password123");
   const navigate = useNavigate();
   const { setUser } = useAuthStore();
-  const loginMutation = useLogin();
+  const loginMutation = useLoginMutation();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

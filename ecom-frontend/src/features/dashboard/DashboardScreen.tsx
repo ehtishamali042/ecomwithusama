@@ -1,6 +1,3 @@
-import { useNavigate } from "react-router-dom";
-import { useLogout } from "../../react-query/mutations/auth";
-import { authStorage } from "../../service/authStorage";
 import { useAuthStore } from "../../store/authStore";
 import { Button } from "../../components/ui/button";
 import {
@@ -10,37 +7,11 @@ import {
   CardHeader,
   CardTitle,
 } from "../../components/ui/card";
-
-const LogoutButton = () => {
-  const navigate = useNavigate();
-  const { logout } = useAuthStore();
-  const logoutMutation = useLogout();
-
-  const handleLogout = async () => {
-    try {
-      await logoutMutation.mutateAsync();
-      logout();
-      // Remove accessToken using authStorage
-      authStorage.clearToken();
-      navigate("/login");
-    } catch (error) {
-      console.error("Logout failed", error);
-    }
-  };
-
-  return (
-    <Button
-      variant="outline"
-      onClick={handleLogout}
-      disabled={logoutMutation.isPending}
-    >
-      {logoutMutation.isPending ? "Logging out..." : "Logout"}
-    </Button>
-  );
-};
+import { useLogout } from "@/hooks/useLogout";
 
 const DashboardScreen = () => {
   const { user } = useAuthStore();
+  const { isLoggingOut, handleLogout } = useLogout();
 
   return (
     <div className="min-h-screen bg-base-200 p-4">
@@ -59,7 +30,13 @@ const DashboardScreen = () => {
         </Card>
         {/* Separate Logout Button Component */}
         <div className="flex justify-end mt-8">
-          <LogoutButton />
+          <Button
+            variant="outline"
+            onClick={handleLogout}
+            disabled={isLoggingOut}
+          >
+            {isLoggingOut ? "Logging out..." : "Logout"}
+          </Button>
         </div>
       </div>
     </div>

@@ -1,14 +1,14 @@
 import { useMutation } from "@tanstack/react-query";
 import { login, register, logout } from "../../api/authApi";
 
-export function useLogin() {
+export function useLoginMutation() {
   return useMutation({ mutationFn: login });
 }
 
-export function useRegister() {
+export function useRegisterMutation() {
   return useMutation({ mutationFn: register });
 }
 
-export function useLogout() {
+export function useLogoutMutation() {
   return useMutation({ mutationFn: logout });
 }
