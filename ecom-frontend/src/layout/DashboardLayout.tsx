@@ -3,6 +3,7 @@ import { useState, useEffect, useRef } from "react";
 import { Outlet, Link, useLocation } from "react-router-dom";
 import { dashboardMenuItems } from "./utils";
 import { useLogout } from "@/hooks/useLogout";
+import { useUser } from "@/hooks/useUser";
 
 type DashboardLayoutProps = {
   children?: ReactNode;
@@ -14,6 +15,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
   const menuRef = useRef<HTMLDivElement>(null);
   const location = useLocation();
   const { isLoggingOut, handleLogout } = useLogout();
+  const { user } = useUser();
 
   // Close menu when clicking outside
   useEffect(() => {
@@ -136,15 +138,15 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
             }`}
           >
             <div className="w-9 h-9 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center text-white font-semibold text-sm flex-shrink-0 shadow-sm">
-              JD
+              {user?.id?.slice(0, 2).toUpperCase() || "UN"}
             </div>
             {sidebarOpen && (
               <div className="flex-1 min-w-0 text-left">
                 <div className="font-semibold text-sm text-gray-800 truncate">
-                  John Doe
+                  {user?.id || "Name here"}
                 </div>
                 <div className="text-xs text-gray-500 truncate">
-                  john@example.com
+                  {user?.email || "email here"}
                 </div>
               </div>
             )}
