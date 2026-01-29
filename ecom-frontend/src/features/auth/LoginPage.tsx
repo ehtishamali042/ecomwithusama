@@ -13,7 +13,7 @@ import {
   CardTitle,
 } from "../../components/ui/card";
 
-const LoginScreen = () => {
+const LoginPage = () => {
   const [email, setEmail] = useState("ehtishamali042@gmail.com");
   const [password, setPassword] = useState("password123");
   const navigate = useNavigate();
@@ -105,4 +105,4 @@ const LoginScreen = () => {
   );
 };
 
-export default LoginScreen;
+export default LoginPage;

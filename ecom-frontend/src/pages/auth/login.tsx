@@ -1,3 +1,3 @@
-import LoginScreen from "../../features/auth/LoginScreen";
+import LoginPage from "../../features/auth/LoginPage";
 
-export default LoginScreen;
+export default LoginPage;

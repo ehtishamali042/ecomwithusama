@@ -13,7 +13,7 @@ import {
 } from "../../components/ui/card";
 import toast from "react-hot-toast";
 
-const RegisterScreen = () => {
+const RegisterPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
@@ -94,4 +94,4 @@ const RegisterScreen = () => {
   );
 };
 
-export default RegisterScreen;
+export default RegisterPage;

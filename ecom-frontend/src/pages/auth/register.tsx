@@ -1,3 +1,3 @@
-import RegisterScreen from "../../features/auth/RegisterScreen";
+import RegisterPage from "../../features/auth/RegisterPage";
 
-export default RegisterScreen;
+export default RegisterPage;
