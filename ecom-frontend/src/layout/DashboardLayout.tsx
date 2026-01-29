@@ -166,7 +166,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
           )}
           <button
             onClick={() => setSidebarOpen((v) => !v)}
-            className={`p-1.5 rounded-lg hover:bg-gray-100 text-gray-500 hover:text-gray-700 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1 ${!sidebarOpen ? "mx-auto" : ""}`}
+            className={`p-1.5 rounded-lg hover:bg-gray-100 text-gray-500 hover:text-gray-700 transition-colors focus:outline-none focus:ring-2 focus:ring-[color:var(--color-primary)] focus:ring-offset-1 ${!sidebarOpen ? "mx-auto" : ""}`}
             aria-label="Toggle sidebar"
           >
             <svg
@@ -203,22 +203,25 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
                     transition-all duration-200 relative overflow-hidden
                     ${
                       active
-                        ? "bg-blue-50 text-blue-600 shadow-sm"
+                        ? "bg-[rgba(20,184,166,0.08)] text-[color:var(--color-primary)] shadow-sm"
                         : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
                     }
                     ${!sidebarOpen ? "justify-center" : ""}
-                    focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1
+                    focus:outline-none focus:ring-2 focus:ring-[color:var(--color-primary)] focus:ring-offset-1
                   `}
                   title={!sidebarOpen ? item.label : undefined}
                 >
                   {/* Active indicator */}
                   {active && (
-                    <span className="absolute left-0 top-0 bottom-0 w-1 bg-blue-600 rounded-r-full" />
+                    <span
+                      className="absolute left-0 top-0 bottom-0 w-1"
+                      style={{ background: "var(--color-primary)" }}
+                    />
                   )}
 
                   {/* Icon */}
                   <span
-                    className={`flex-shrink-0 ${active ? "text-blue-600" : ""}`}
+                    className={`flex-shrink-0 ${active ? "text-[color:var(--color-primary)]" : ""}`}
                   >
                     {item.icon}
                   </span>
@@ -289,7 +292,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
               className={`absolute bg-white rounded-lg shadow-lg border border-gray-200 py-1 z-50 ${
                 sidebarOpen
                   ? "bottom-full left-3 right-3 mb-2"
-                  : "bottom-full left-1/2 -translate-x-1/2 mb-2 w-48"
+                  : "bottom-full left-2 mb-2 w-56"
               }`}
             >
               <Link
