@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useLoginMutation } from "../../react-query/mutations/auth";
-import { useAuthStore } from "../../store/authStore";
+import { useInitUser } from "@/hooks/useInitUser";
 import { authStorage } from "../../service/authStorage";
 import { Button } from "../../components/ui/button";
 import { Input } from "../../components/ui/input";
@@ -17,18 +17,18 @@ const LoginPage = () => {
   const [email, setEmail] = useState("ehtishamali042@gmail.com");
   const [password, setPassword] = useState("password123");
   const navigate = useNavigate();
-  const { setUser } = useAuthStore();
+  const { initUser } = useInitUser();
   const loginMutation = useLoginMutation();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
       const response = await loginMutation.mutateAsync({ email, password });
-      setUser(response.user);
       if (response?.session?.accessToken) {
         authStorage.setToken(response.session.accessToken);
+        await initUser();
+        navigate("/dashboard");
       }
-      navigate("/dashboard");
     } catch {
       // Error handled in UI
     }

@@ -38,5 +38,11 @@ export const register = (data: RegisterData): Promise<RegisterResponse> =>
 export const refreshToken = (data: RefreshTokenData): Promise<AuthResponse> =>
   fetcher.post("/auth/refresh", data);
 export const logout = (): Promise<void> => fetcher.post("/auth/logout");
-export const getMe = (): Promise<{ user: { id: string; email: string } }> =>
-  fetcher.get("/auth/me");
+export interface UserProfile {
+  id: string;
+  email: string;
+  firstName?: string;
+  lastName?: string;
+}
+
+export const getMe = (): Promise<UserProfile> => fetcher.get("/auth/me");

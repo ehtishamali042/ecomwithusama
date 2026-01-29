@@ -138,7 +138,9 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
             }`}
           >
             <div className="w-9 h-9 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center text-white font-semibold text-sm flex-shrink-0 shadow-sm">
-              {user?.id?.slice(0, 2).toUpperCase() || "UN"}
+              {user?.firstName && user?.lastName
+                ? `${user.firstName[0]}${user.lastName[0]}`.toUpperCase()
+                : "UN"}
             </div>
             {sidebarOpen && (
               <div className="flex-1 min-w-0 text-left">

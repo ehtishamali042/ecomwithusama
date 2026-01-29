@@ -21,7 +21,12 @@ const DashboardMainPage = () => {
         </div>
         <Card>
           <CardHeader>
-            <CardTitle>Welcome, {user?.email}</CardTitle>
+            <CardTitle>
+              Welcome,{" "}
+              {user?.firstName && user?.lastName
+                ? `${user.firstName} ${user.lastName}`
+                : user?.email}
+            </CardTitle>
           </CardHeader>
           <CardContent>
             <CardDescription>Your e-commerce admin dashboard.</CardDescription>
