@@ -7,6 +7,7 @@ const DashboardMain = lazy(() => import("./DashboardMain"));
 const AllOrders = lazy(() => import("./orders/AllOrders"));
 const OrderDetail = lazy(() => import("./orders/OrderDetail"));
 const EditOrder = lazy(() => import("./orders/EditOrder"));
+const Calculator = lazy(() => import("./calculator/Calculator"));
 
 export default function DashboardRoutes() {
   return (
@@ -18,6 +19,7 @@ export default function DashboardRoutes() {
             <Route path="orders" element={<AllOrders />} />
             <Route path="orders/:orderId" element={<OrderDetail />} />
             <Route path="orders/:orderId/edit" element={<EditOrder />} />
+            <Route path="calculator" element={<Calculator />} />
             <Route path="*" element={<Navigate to="" replace />} />
           </Routes>
         </Suspense>
