@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useMemo } from "react";
 
 const ProfitCalculator = () => {
   const [config, setConfig] = useState({
@@ -19,50 +19,42 @@ const ProfitCalculator = () => {
     otherCost: 0,
   });
 
-  const [calculations, setCalculations] = useState({
-    revenue: 0,
-    totalCosts: 0,
-    platformFees: 0,
-    netProfit: 0,
-    margin: 0,
-    roi: 0,
-  });
+  const platformFees = useMemo(
+    () =>
+      ({
+        ebay: { finalValueFee: 0.136, perOrderFee: 0.3 },
+        amazon: { finalValueFee: 0.15, perOrderFee: 0 },
+        tiktok: { finalValueFee: 0.08, perOrderFee: 0 },
+      }) as const,
+    [],
+  );
 
-  const platformFees = {
-    ebay: { finalValueFee: 0.136, perOrderFee: 0.3 },
-    amazon: { finalValueFee: 0.15, perOrderFee: 0 },
-    tiktok: { finalValueFee: 0.08, perOrderFee: 0 },
-  };
+  type PlatformKey = keyof typeof platformFees;
 
-  useEffect(() => {
+  const calculations = useMemo(() => {
+    const platformKey = config.platform as PlatformKey;
     const revenue =
-      (parseFloat(saleDetails.itemPrice) +
-        parseFloat(saleDetails.shippingCharged)) *
-      parseInt(saleDetails.quantitySold);
+      (saleDetails.itemPrice + saleDetails.shippingCharged) *
+      saleDetails.quantitySold;
     const totalCosts =
-      (parseFloat(unitCosts.itemCost) +
-        parseFloat(unitCosts.shippingCost) +
-        parseFloat(unitCosts.otherCost)) *
-      parseInt(saleDetails.quantitySold);
-
-    const fees = platformFees[config.platform];
+      (unitCosts.itemCost + unitCosts.shippingCost + unitCosts.otherCost) *
+      saleDetails.quantitySold;
+    const fees = platformFees[platformKey];
     const finalValueFee = revenue * fees.finalValueFee;
-    const perOrderFee = fees.perOrderFee * parseInt(saleDetails.quantitySold);
+    const perOrderFee = fees.perOrderFee * saleDetails.quantitySold;
     const platformFeesTotal = finalValueFee + perOrderFee;
-
     const netProfit = revenue - totalCosts - platformFeesTotal;
     const margin = revenue > 0 ? (netProfit / revenue) * 100 : 0;
     const roi = totalCosts > 0 ? (netProfit / totalCosts) * 100 : 0;
-
-    setCalculations({
-      revenue: revenue.toFixed(2),
-      totalCosts: totalCosts.toFixed(2),
-      platformFees: platformFeesTotal.toFixed(2),
-      netProfit: netProfit.toFixed(2),
-      margin: margin.toFixed(1),
-      roi: roi.toFixed(0),
-    });
-  }, [config, saleDetails, unitCosts]);
+    return {
+      revenue,
+      totalCosts,
+      platformFees: platformFeesTotal,
+      netProfit,
+      margin,
+      roi,
+    };
+  }, [config, saleDetails, unitCosts, platformFees]);
 
   return (
     <div className="min-h-screen bg-gray-50 py-8 px-4">
