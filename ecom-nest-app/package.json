@@ -10,19 +10,26 @@
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main"
   },
-  "keywords": ["nestjs", "ecommerce", "inventory"],
+  "keywords": [
+    "nestjs",
+    "ecommerce",
+    "inventory"
+  ],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "@nestjs/common": "^11.1.12",
     "@nestjs/config": "^4.0.2",
     "@nestjs/core": "^11.1.12",
+    "@nestjs/mapped-types": "^2.1.0",
     "@nestjs/platform-express": "^11.1.12",
     "@supabase/supabase-js": "^2.91.1",
+    "@types/uuid": "^10.0.0",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.3",
     "reflect-metadata": "^0.2.2",
-    "rxjs": "^7.8.2"
+    "rxjs": "^7.8.2",
+    "uuid": "^13.0.0"
   },
   "devDependencies": {
     "@nestjs/cli": "^11.0.16",
