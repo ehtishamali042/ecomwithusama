@@ -3,6 +3,8 @@ import { createStock, updateStock, deleteStock } from "../../api/stocksApi";
 import type { StockPayload } from "../../api/stocksApi";
 import { uploadStockImage } from "../../api/filesApi";
 import type { UploadResponse } from "../../api/filesApi";
+import { notificationService } from "@/services/notificationService";
+import { NOTIFICATION_MESSAGES } from "@/constants/notificationMessages";
 
 export function useCreateStockMutation() {
   const qc = useQueryClient();
@@ -10,6 +12,9 @@ export function useCreateStockMutation() {
     mutationFn: createStock,
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: ["stocks"] });
+      notificationService.showSuccess(
+        NOTIFICATION_MESSAGES.STOCK.CREATE_SUCCESS,
+      );
     },
   });
 }
@@ -28,6 +33,9 @@ export function useUpdateStockMutation() {
       qc.invalidateQueries({ queryKey: ["stocks"] });
       if (variables && variables.id)
         qc.invalidateQueries({ queryKey: ["stock", variables.id] });
+      notificationService.showSuccess(
+        NOTIFICATION_MESSAGES.STOCK.UPDATE_SUCCESS,
+      );
     },
   });
 }
@@ -38,6 +46,9 @@ export function useDeleteStockMutation() {
     mutationFn: (id: string) => deleteStock(id),
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: ["stocks"] });
+      notificationService.showSuccess(
+        NOTIFICATION_MESSAGES.STOCK.DELETE_SUCCESS,
+      );
     },
   });
 }

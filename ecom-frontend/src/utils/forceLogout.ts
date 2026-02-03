@@ -2,8 +2,12 @@
 import { authStorage } from "@/service/authStorage";
 import { useAuthStore } from "@/store/authStore";
 import { QueryClient } from "@tanstack/react-query";
+import { notificationService } from "@/services/notificationService";
+import { NOTIFICATION_MESSAGES } from "@/constants/notificationMessages";
 
 export function forceLogout() {
+  // Show notification
+  notificationService.showInfo(NOTIFICATION_MESSAGES.AUTH.FORCE_LOGOUT);
   // Clear token
   authStorage.clearToken();
   // Clear Zustand auth store
@@ -12,6 +16,8 @@ export function forceLogout() {
   // Clear all react-query cache
   const queryClient = new QueryClient();
   queryClient.clear();
-  // Redirect to login
-  window.location.href = "/login";
+  // Small delay to ensure toast is visible before redirect
+  setTimeout(() => {
+    window.location.href = "/login";
+  }, 500);
 }
