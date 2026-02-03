@@ -15,7 +15,7 @@ function doForceLogout() {
   // Only force logout if user is still considered logged in
   if (!token && !user) return;
   // Show notification
-  notificationService.showInfo(NOTIFICATION_MESSAGES.AUTH.FORCE_LOGOUT);
+  notificationService.showInfo(NOTIFICATION_MESSAGES.AUTH.LOGOUT_SUCCESS);
   // Clear token
   authStorage.clearToken();
   // Clear Zustand auth store
