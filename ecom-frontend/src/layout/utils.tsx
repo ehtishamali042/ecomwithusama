@@ -57,6 +57,25 @@ export const dashboardMenuItems = [
     ),
   },
   {
+    label: "Stocks",
+    path: "/dashboard/stocks",
+    icon: (
+      <svg
+        className="w-5 h-5"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        viewBox="0 0 24 24"
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          d="M3 7h18M3 12h18M3 17h18"
+        />
+      </svg>
+    ),
+  },
+  {
     label: "Customers",
     path: "/dashboard/customers",
     icon: (

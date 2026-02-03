@@ -1,31 +1,30 @@
 # Design Component Library
 
-**shadcn/ui** will be used as the primary design component library for this dashboard project.
+**daisyUI + Tailwind CSS** are used as the primary UI foundation for this dashboard project.
 
-- Built on top of Radix UI primitives for accessibility and composability.
-- Integrates seamlessly with Tailwind CSS for styling and customization.
-- Fast, modern, and minimal—ideal for admin dashboards.
-- Components are copy-paste and customizable, so you can keep your codebase lean.
+- Built on top of Tailwind CSS utility classes, with ready‑made components.
+- Provides modern, accessible defaults that are easy to customize.
+- Works nicely with lightweight wrapper components (Button, Card, Input) in the `src/components/ui` folder.
 
-**Why shadcn/ui?**
+**Why daisyUI?**
 
-- Modern look and feel, with a focus on accessibility.
-- Works perfectly with Tailwind CSS utility classes.
-- Easy to extend or override styles as your dashboard grows.
+- Simple, clean admin‑friendly design with minimal setup.
+- Themeable via Tailwind config (light/dark, brand colors, etc.).
+- Lets you combine utility classes and prebuilt component styles for fast iteration.
 
 **Setup:**
 
-- Install shadcn/ui and its peer dependencies (see official docs for latest commands).
-- Use the CLI to add components as needed (e.g., `npx shadcn-ui@latest add button`).
-- Customize components in your `/components` folder as your design evolves.
+- Install and configure `tailwindcss` and `daisyui` (see official docs for the latest commands).
+- Enable `daisyui` as a Tailwind plugin in `tailwind.config.js`.
+- Use daisyUI classes (e.g. `btn`, `card`, `alert`, `badge`, `table`, `bg-base-200`) directly in feature components, optionally wrapped by shared UI components in `src/components/ui`.
 
 ---
 
 ## React Query Structure
 
-- Create a `/react-query` folder at the root of your project.
-- Inside `/react-query`, create `/queries` and `/mutations` subfolders.
-- Place all `useQuery` hooks in `/react-query/queries` and all `useMutation` hooks in `/react-query/mutations`, grouped by domain (e.g., `auth.ts`, `dashboard.ts`).
+- Use a `/react-query` folder at the root of the project.
+- Inside `/react-query`, use `/queries` and `/mutations` subfolders.
+- Place all `useQuery` hooks in `/react-query/queries` and all `useMutation` hooks in `/react-query/mutations`, grouped by domain (e.g., `auth.ts`, `dashboard.ts`, `stocks.ts`).
 - Each hook imports its API function from `/api`.
 
 **Example:**
@@ -40,46 +39,13 @@ export function useLogin() {
 }
 ```
 
+```ts
 // /react-query/queries/dashboard.ts
-import { useQuery } from '@tanstack/react-query';
-import { getDashboardStats } from '../../api/dashboardApi';
+import { useQuery } from "@tanstack/react-query";
+import { getDashboardStats } from "../../api/dashboardApi";
 
 export function useDashboardStats() {
-return useQuery(['dashboardStats'], getDashboardStats);
-}
-
-```
-
----
-```
-
-**authApi.ts**
-
-```ts
-import fetcher from "./fetcher";
-
-export const login = (data) => fetcher.post("/auth/login", data);
-export const register = (data) => fetcher.post("/auth/register", data);
-// ...other auth endpoints
-```
-
----
-
-## React Query Structure
-
-- Place React Query data hooks (useQuery, useMutation, etc.) in each feature folder (e.g., `/features/auth/useData.ts`).
-- Each hook uses the relevant API function from `/api`.
-- Use `useQuery` for GET/fetch, `useMutation` for POST/PUT/DELETE.
-
-**Example:**
-
-```ts
-// /features/auth/hooks.ts
-import { useMutation } from "@tanstack/react-query";
-import { login } from "../../api/authApi";
-
-export function useLogin() {
-  return useMutation(login);
+  return useQuery(["dashboardStats"], getDashboardStats);
 }
 ```
 
@@ -92,7 +58,7 @@ export function useLogin() {
 - **React Query** (`@tanstack/react-query`): For data fetching, caching, and server state. Place feature-specific hooks in each feature folder (e.g., `/features/auth/hooks.ts`).
 - **Zustand** (`zustand`): For client state management. Place all stores (global and feature-specific) in the `/store` folder (e.g., `/store/authStore.ts`, `/store/dashboardStore.ts`).
 - **Tailwind CSS** (`tailwindcss`): For utility-first styling. Global config in `/styles`.
-- **Shadcn/ui**: For modern, accessible UI components. Use in `/components` or feature components.
+- **daisyUI** (`daisyui`): For modern, accessible UI components built on Tailwind. Use classes directly in feature components, optionally wrapped by shared components in `/components/ui`.
 - **React Router** (`react-router-dom`): (If used) For routing, with route files in `/pages` or `/routes`.
 - **TypeScript**: For type safety. Place global types in `/types`, feature types in feature folders.
 
@@ -193,7 +159,21 @@ export default DashboardScreen;
 - **Use React.lazy and Suspense for lazy loading.** Code split at the feature or section level for performance and maintainability.
 - **Keep API logic close to the feature.** Each feature manages its own API calls and mutations unless shared globally.
 - **Use Tailwind and Shadcn/ui for all styling.**
+- **Use Tailwind and daisyUI for all styling.**
 - **DTO-driven types for API consistency.**
+
+---
+
+## Stocks Frontend Module
+
+The Stocks feature should follow the same patterns as `auth` and `dashboard`:
+
+- Routes live under `src/pages/dashboard/stocks` as thin wrappers.
+- Real screens, UI, and logic live in `src/features/stocks`.
+- Stock data fetching and mutations live in `src/react-query/queries/stocks.ts` and `src/react-query/mutations/stocks.ts`, calling `src/api/stocksApi.ts`.
+- Styling uses Tailwind + daisyUI classes, consistent with the rest of the dashboard.
+
+For a detailed spec of the Stocks CRUD UI (routes, screens, API integration, and daisyUI layout guidance), see `docs/stock-frontend-llm-instructions.md`.
 
 ---
 

@@ -103,8 +103,12 @@ export class StockService {
         .eq("user_id", userId);
 
       // Apply filters
-      if (listStockDto.marketplace) {
-        query = query.eq("marketplace", listStockDto.marketplace);
+      if (listStockDto.marketplace && Array.isArray(listStockDto.marketplace)) {
+        // Use overlaps for array columns
+        query = query.overlaps("marketplace", listStockDto.marketplace);
+      } else if (listStockDto.marketplace) {
+        // Single value, wrap as array for overlaps
+        query = query.overlaps("marketplace", [listStockDto.marketplace]);
       }
 
       if (listStockDto.stockStatus) {

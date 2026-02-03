@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useLoginMutation } from "../../react-query/mutations/auth";
 import { useInitUser } from "@/hooks/useInitUser";
 import { authStorage } from "../../service/authStorage";

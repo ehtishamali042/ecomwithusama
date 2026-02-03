@@ -6,8 +6,9 @@ import {
   IsString,
   IsArray,
   IsUrl,
+  ValidateIf,
 } from "class-validator";
-import { Type } from "class-transformer";
+import { Type, Transform } from "class-transformer";
 import { MarketplaceType, StockStatusType } from "../entities/stock.entity";
 
 export class ListStockDto {
@@ -26,6 +27,11 @@ export class ListStockDto {
   @IsOptional()
   @IsArray()
   @IsString({ each: true })
+  @Transform(({ value }) => {
+    if (Array.isArray(value)) return value;
+    if (typeof value === "string" && value.length > 0) return [value];
+    return undefined;
+  })
   marketplace?: string[];
 
   @IsOptional()

@@ -42,9 +42,15 @@ export class StockController {
   @Get()
   async findAll(
     @CurrentUser() user: SupabaseUser,
+    @Query("marketplace") marketplace: string | string[],
     @Query() listStockDto: ListStockDto,
   ) {
-    console.log("ListStockDtos:", listStockDto, user.id);
+    // Ensure marketplace is always an array if present
+    if (marketplace) {
+      listStockDto.marketplace = Array.isArray(marketplace)
+        ? marketplace
+        : [marketplace];
+    }
     return this.stockService.findAll(user.id, listStockDto);
   }
 
