@@ -88,7 +88,18 @@ export const getStocks = async (params?: StocksListParams) => {
   // Normalize filters for backend
   const normalized = normalizeStocksListParams(params);
   // Backend returns { data: Stock[], meta: { total, page, limit, totalPages } }
-  const res = await fetcher.get<any>(`/stocks${buildQuery(normalized)}`);
+  type BackendStocksResponse = {
+    data: Stock[];
+    meta?: {
+      total?: number;
+      page?: number;
+      limit?: number;
+      totalPages?: number;
+    };
+  };
+  const res = await fetcher.get<BackendStocksResponse>(
+    `/stocks${buildQuery(normalized)}`,
+  );
   const items: Stock[] = res.data || [];
   const meta = res.meta || {};
   const total = meta.total ?? items.length;

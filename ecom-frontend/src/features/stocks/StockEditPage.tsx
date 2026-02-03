@@ -45,12 +45,14 @@ export default function StockEditPage() {
         upd.onlineMarketplaceUrl = values.onlineMarketplaceUrl;
       if (values.sizeLabel !== undefined) upd.sizeLabel = values.sizeLabel;
       if (values.colorLabel !== undefined) upd.colorLabel = values.colorLabel;
-      if (values.stockStatus !== undefined)
-        if (values.marketplace !== undefined) {
-          upd.marketplace = Array.isArray(values.marketplace)
-            ? values.marketplace
-            : [values.marketplace];
-        }
+      if (values.stockStatus !== undefined) {
+        upd.stockStatus = values.stockStatus;
+      }
+      if (values.marketplace !== undefined) {
+        upd.marketplace = Array.isArray(values.marketplace)
+          ? values.marketplace
+          : [values.marketplace];
+      }
       if (values.quantity !== undefined) upd.quantity = values.quantity;
       if (values.price !== undefined) upd.price = values.price;
       if (values.currency !== undefined) upd.currency = values.currency;
