@@ -38,25 +38,6 @@ export const dashboardMenuItems = [
     ),
   },
   {
-    label: "Products",
-    path: "/dashboard/products",
-    icon: (
-      <svg
-        className="w-5 h-5"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2"
-        viewBox="0 0 24 24"
-      >
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"
-        />
-      </svg>
-    ),
-  },
-  {
     label: "Stocks",
     path: "/dashboard/stocks",
     icon: (
@@ -70,7 +51,20 @@ export const dashboardMenuItems = [
         <path
           strokeLinecap="round"
           strokeLinejoin="round"
-          d="M3 7h18M3 12h18M3 17h18"
+          d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4a2 2 0 0 0 1-1.73z"
+        />
+        <polyline
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          points="3.27 6.96 12 12.01 20.73 6.96"
+        />
+        <line
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          x1="12"
+          y1="22"
+          x2="12"
+          y2="12"
         />
       </svg>
     ),
