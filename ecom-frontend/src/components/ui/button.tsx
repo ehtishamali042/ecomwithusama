@@ -34,7 +34,9 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       sm: "btn-sm",
       lg: "btn-lg",
     };
-    const classes = `${baseClasses} ${variantClasses[variant]} ${sizeClasses[size]} text-white ${className}`;
+    // Only apply text-white for default (primary) variant, not for outline/ghost
+    const textColor = variant === "default" ? "text-white" : "text-primary";
+    const classes = `${baseClasses} ${variantClasses[variant]} ${sizeClasses[size]} ${textColor} ${className}`;
 
     return (
       <button
