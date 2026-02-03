@@ -31,37 +31,61 @@ export function StockTable({ stocks = [], isLoading }: StockTableProps) {
           </tr>
         </thead>
         <tbody>
-          {stocks.map((s) => (
-            <tr key={s.id}>
+          {stocks.map((s, idx) => (
+            <tr
+              key={s.id}
+              className={idx === stocks.length - 1 ? "[&>td]:!border-b-0" : ""}
+            >
               <td>
-                {s.mainImageUrl ? (
-                  <img
-                    src={s.mainImageUrl}
-                    alt={s.title}
-                    className="w-12 h-12 object-cover rounded"
-                  />
-                ) : (
-                  <div className="w-12 h-12 bg-base-300 rounded flex items-center justify-center">
-                    —
-                  </div>
-                )}
+                <div className="flex items-center justify-center">
+                  {s.mainImageUrl ? (
+                    <img
+                      src={s.mainImageUrl}
+                      alt={s.title}
+                      className="w-14 h-14 object-cover rounded-lg border border-base-300 shadow-sm transition-transform duration-200 hover:scale-105 bg-white"
+                      style={{ boxShadow: "0 2px 8px rgba(0,0,0,0.06)" }}
+                    />
+                  ) : (
+                    <div className="w-14 h-14 bg-base-200 rounded-lg flex items-center justify-center text-xl text-base-content/40 border border-base-300 shadow-sm">
+                      <span>No Image</span>
+                    </div>
+                  )}
+                </div>
               </td>
-              <td>{s.title}</td>
-              <td>{s.sku || "-"}</td>
-              <td>{s.marketplace || "-"}</td>
+              <td
+                className="font-semibold text-base text-base-content/90 max-w-xs truncate cursor-pointer underline hover:text-primary transition-colors duration-150"
+                title={s.title}
+                onClick={() => navigate(`./${s.id}`)}
+                tabIndex={0}
+                role="button"
+                onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') navigate(`./${s.id}`); }}
+              >
+                {s.title}
+              </td>
+              <td className="text-base text-base-content/80">{s.sku || "-"}</td>
+              <td className="text-base text-base-content/80">
+                {Array.isArray(s.marketplace)
+                  ? s.marketplace.join(", ")
+                  : s.marketplace || "-"}
+              </td>
               <td>
                 <span
-                  className={`badge ${s.stockStatus === "IN_STOCK" ? "badge-success" : "badge-ghost"}`}
+                  className={`badge px-3 py-1 rounded-full text-base tracking-wide ${s.stockStatus === "IN_STOCK" ? "bg-green-100 text-green-800 border border-green-200" : "bg-gray-100 text-gray-600 border border-gray-200"}`}
                 >
                   {s.stockStatus || "-"}
                 </span>
               </td>
-              <td>{s.quantity ?? "-"}</td>
-              <td>{formatCurrency(s.price, s.currency)}</td>
-              <td className="space-x-2">
+              <td className="text-base text-base-content/90">
+                {s.quantity ?? "-"}
+              </td>
+              <td className="font-semibold text-base text-base-content/90">
+                {formatCurrency(s.price, s.currency)}
+              </td>
+              <td className="space-x-1   items-center justify-center">
                 <Button
                   size="sm"
                   variant="outline"
+                  className="rounded-full px-3 py-1 text-xs"
                   onClick={() => navigate(`./${s.id}/edit`)}
                 >
                   Edit

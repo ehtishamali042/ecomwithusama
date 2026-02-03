@@ -12,6 +12,7 @@ const SettingsRoutes = lazy(() => import("./settings/index"));
 const StocksList = lazy(() => import("./stocks/AllStocks"));
 const StocksCreate = lazy(() => import("./stocks/CreateStock"));
 const StocksEdit = lazy(() => import("./stocks/EditStock"));
+const StockDetail = lazy(() => import("./stocks/StockDetail"));
 
 export default function DashboardRoutes() {
   return (
@@ -27,6 +28,7 @@ export default function DashboardRoutes() {
             <Route path="settings/*" element={<SettingsRoutes />} />
             <Route path="stocks" element={<StocksList />} />
             <Route path="stocks/new" element={<StocksCreate />} />
+            <Route path="stocks/:stockId" element={<StockDetail />} />
             <Route path="stocks/:stockId/edit" element={<StocksEdit />} />
             <Route path="*" element={<Navigate to="" replace />} />
           </Routes>
