@@ -27,13 +27,13 @@ export default function StocksListPage() {
   return (
     <div className="min-h-screen bg-base-200 p-4">
       <Card>
-        <CardHeader className="flex items-center justify-between">
-          <CardTitle>Stocks</CardTitle>
-          <div>
-            <Button onClick={() => navigate("/dashboard/stocks/new")}>
-              Add stock
-            </Button>
-          </div>
+        <CardHeader className="flex flex-row items-center justify-between py-6 px-4">
+          <CardTitle className="text-2xl font-bold tracking-tight">
+            Stocks
+          </CardTitle>
+          <Button onClick={() => navigate("/dashboard/stocks/new")}>
+            Add Stock
+          </Button>
         </CardHeader>
         <CardContent>
           <StockFilters
