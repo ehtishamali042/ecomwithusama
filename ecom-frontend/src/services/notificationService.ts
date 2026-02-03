@@ -1,4 +1,4 @@
-import toast, { type ToastOptions, type Message } from "react-hot-toast";
+import toast, { type ToastOptions } from "react-hot-toast";
 
 const DEFAULT_CONFIG: ToastOptions = {
   duration: 4000,
@@ -90,9 +90,9 @@ export const notificationService = {
   dismissAll(): void {
     toast.dismiss();
   },
-  showCustom(content: Message, options?: ToastOptions): string | number {
-    return toast.custom(content, { ...DEFAULT_CONFIG, ...options });
-  },
+  // showCustom(content: Message, options?: ToastOptions): string | number {
+  //   return toast.custom(content, { ...DEFAULT_CONFIG, ...options });
+  // },
 };
 
 export type NotificationService = typeof notificationService;
