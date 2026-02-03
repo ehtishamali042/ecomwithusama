@@ -16,8 +16,5 @@ export function forceLogout() {
   // Clear all react-query cache
   const queryClient = new QueryClient();
   queryClient.clear();
-  // Small delay to ensure toast is visible before redirect
-  setTimeout(() => {
-    window.location.href = "/login";
-  }, 500);
+  // No manual redirect; router will handle navigation to /login
 }
