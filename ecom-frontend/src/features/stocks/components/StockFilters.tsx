@@ -1,6 +1,6 @@
 // No default React import required with the new JSX transform
 
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
 import debounce from "lodash.debounce";
 
 type Props = {
@@ -20,18 +20,30 @@ export default function StockFilters({
   stockStatus = "",
   onChange,
 }: Props) {
+  const [inputValue, setInputValue] = useState(search);
   const debounced = useRef(
     debounce((value: string) => onChange({ search: value }), 300),
   );
-  useEffect(() => () => debounced.current.cancel(), []);
+
+  // Sync inputValue with search prop if it changes externally
+  useEffect(() => {
+    setInputValue(search);
+  }, [search]);
+
+  useEffect(() => {
+    return () => debounced.current.cancel();
+  }, []);
 
   return (
     <div className="flex gap-2 mb-4">
       <input
         className="input input-bordered w-full"
         placeholder="Search stocks..."
-        value={search}
-        onChange={(e) => debounced.current(e.target.value)}
+        value={inputValue}
+        onChange={(e) => {
+          setInputValue(e.target.value);
+          debounced.current(e.target.value);
+        }}
       />
       <select
         className="select select-bordered"
