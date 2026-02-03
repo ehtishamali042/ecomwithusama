@@ -1,7 +1,10 @@
 // No default React import required with the new JSX transform
 import type { Stock } from "../types";
 import { formatCurrency } from "../utils";
+import { truncateString } from "@/utils/stringTruncate";
 import { Button } from "@/components/ui/button";
+import { EditIcon } from "@/components/ui/Icons";
+import "./stocktable.css";
 import { useNavigate } from "react-router-dom";
 import DeleteStockButton from "./DeleteStockButton";
 
@@ -42,11 +45,10 @@ export function StockTable({ stocks = [], isLoading }: StockTableProps) {
                     <img
                       src={s.mainImageUrl}
                       alt={s.title}
-                      className="w-14 h-14 object-cover rounded-lg border border-base-300 shadow-sm transition-transform duration-200 hover:scale-105 bg-white"
-                      style={{ boxShadow: "0 2px 8px rgba(0,0,0,0.06)" }}
+                      className="stock-table-img"
                     />
                   ) : (
-                    <div className="w-14 h-14 bg-base-200 rounded-lg flex items-center justify-center text-xl text-base-content/40 border border-base-300 shadow-sm">
+                    <div className="stock-table-img-placeholder">
                       <span>No Image</span>
                     </div>
                   )}
@@ -59,38 +61,62 @@ export function StockTable({ stocks = [], isLoading }: StockTableProps) {
                 tabIndex={0}
                 role="button"
               >
-                {s.title}
+                {truncateString(s.title, 21)}
               </td>
-              <td className="text-base text-base-content/80">{s.sku || "-"}</td>
-              <td className="text-base text-base-content/80">
+              <td
+                className="font-medium text-base text-base-content/80 max-w-xs truncate"
+                title={s.sku}
+              >
+                {truncateString(s.sku, 10) || "-"}
+              </td>
+              <td
+                className="font-medium text-base text-base-content/80 max-w-xs truncate"
+                title={
+                  Array.isArray(s.marketplace)
+                    ? s.marketplace.join(", ")
+                    : s.marketplace
+                }
+              >
                 {Array.isArray(s.marketplace)
-                  ? s.marketplace.join(", ")
-                  : s.marketplace || "-"}
+                  ? truncateString(s.marketplace.join(", "), 18)
+                  : truncateString(s.marketplace, 18) || "-"}
               </td>
-              <td>
+              <td className="max-w-xs truncate" title={s.stockStatus}>
                 <span
-                  className={`badge px-3 py-1 rounded-full text-base tracking-wide ${s.stockStatus === "IN_STOCK" ? "bg-green-100 text-green-800 border border-green-200" : "bg-gray-100 text-gray-600 border border-gray-200"}`}
+                  className={`badge px-3 py-1 rounded-full text-base font-semibold tracking-wide ${s.stockStatus === "IN_STOCK" ? "bg-green-100 text-green-800 border border-green-200" : "bg-gray-100 text-gray-600 border border-gray-200"}`}
                 >
-                  {s.stockStatus || "-"}
+                  {truncateString(s.stockStatus, 18) || "-"}
                 </span>
               </td>
-              <td className="text-base text-base-content/90">
+              <td
+                className="font-semibold text-base text-base-content/90 max-w-xs truncate"
+                title={String(s.quantity)}
+              >
                 {s.quantity ?? "-"}
               </td>
-              <td className="font-semibold text-base text-base-content/90">
-                {formatCurrency(s.price, s.currency)}
+              <td
+                className="font-semibold text-base text-base-content/90 max-w-xs truncate"
+                title={formatCurrency(s.price, s.currency)}
+              >
+                {truncateString(formatCurrency(s.price, s.currency), 18)}
               </td>
               <td className="space-x-1   items-center justify-center">
-                <Button
-                  size="sm"
-                  variant="outline"
-                  className="rounded-full px-3 py-1 text-xs"
-                  onClick={() => navigate(`./${s.id}/edit`)}
-                >
-                  Edit
-                </Button>
-                {/* Use the new DeleteStockButton component */}
-                <DeleteStockButton stockId={s.id} />
+                <div className="flex flex-row gap-2 items-center">
+                  <Button
+                    size="sm"
+                    variant="ghost"
+                    className="p-1 border border-gray-300 rounded"
+                    onClick={() => navigate(`./${s.id}/edit`)}
+                    aria-label="Edit stock"
+                  >
+                    <EditIcon className="w-5 h-5" />
+                  </Button>
+                  <DeleteStockButton
+                    stockId={s.id}
+                    iconOnly
+                    buttonClassName="border border-gray-300 rounded"
+                  />
+                </div>
               </td>
             </tr>
           ))}

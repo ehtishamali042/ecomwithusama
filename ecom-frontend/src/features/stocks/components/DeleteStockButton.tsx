@@ -6,9 +6,17 @@ import React, { useState } from "react";
 
 interface DeleteStockButtonProps {
   stockId: string;
+  iconOnly?: boolean;
+  buttonClassName?: string;
 }
 
-const DeleteStockButton: React.FC<DeleteStockButtonProps> = ({ stockId }) => {
+import { DeleteIcon } from "@/components/ui/Icons";
+
+const DeleteStockButton: React.FC<DeleteStockButtonProps> = ({
+  stockId,
+  iconOnly,
+  buttonClassName,
+}) => {
   const [confirming, setConfirming] = useState(false);
   const deleteMut = useDeleteStockMutation();
 
@@ -37,8 +45,15 @@ const DeleteStockButton: React.FC<DeleteStockButtonProps> = ({ stockId }) => {
       onClick={handleDelete}
       disabled={deleteMut.isPending}
       aria-label="Delete stock"
+      className={iconOnly ? `p-1 ${buttonClassName ?? ""}` : buttonClassName}
     >
-      {deleteMut.isPending ? <Spinner /> : "Delete"}
+      {deleteMut.isPending ? (
+        <Spinner />
+      ) : iconOnly ? (
+        <DeleteIcon className="w-5 h-5 text-red-500" />
+      ) : (
+        "Delete"
+      )}
     </Button>
   );
 };
