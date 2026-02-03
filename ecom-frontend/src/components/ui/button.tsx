@@ -34,7 +34,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       sm: "btn-sm",
       lg: "btn-lg",
     };
-    const classes = `${baseClasses} ${variantClasses[variant]} ${sizeClasses[size]} ${className}`;
+    const classes = `${baseClasses} ${variantClasses[variant]} ${sizeClasses[size]} text-white ${className}`;
 
     return (
       <button
