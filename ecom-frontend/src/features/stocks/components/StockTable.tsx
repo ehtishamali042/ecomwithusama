@@ -58,7 +58,6 @@ export function StockTable({ stocks = [], isLoading }: StockTableProps) {
                 onClick={() => navigate(`./${s.id}`)}
                 tabIndex={0}
                 role="button"
-                onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') navigate(`./${s.id}`); }}
               >
                 {s.title}
               </td>
