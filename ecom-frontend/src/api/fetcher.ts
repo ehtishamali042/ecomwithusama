@@ -1,4 +1,5 @@
 import { authStorage } from "@/service/authStorage";
+import { forceLogout } from "@/utils/forceLogout";
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
@@ -36,6 +37,12 @@ class Fetcher {
     };
 
     const response = await fetch(url, config);
+
+    // Handle token expiry (401 Unauthorized)
+    if (response.status === 401) {
+      forceLogout();
+      throw new Error("Session expired. You have been logged out.");
+    }
 
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
