@@ -3,18 +3,14 @@ import type { Stock } from "../types";
 import { formatCurrency } from "../utils";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
+import DeleteStockButton from "./DeleteStockButton";
 
-type Props = {
+export interface StockTableProps {
   stocks?: Stock[];
   isLoading?: boolean;
-  onDelete?: (id: string) => void;
-};
+}
 
-export default function StockTable({
-  stocks = [],
-  isLoading,
-  onDelete,
-}: Props) {
+export function StockTable({ stocks = [], isLoading }: StockTableProps) {
   const navigate = useNavigate();
 
   if (isLoading) return <div className="p-4">Loading stocks...</div>;
@@ -70,13 +66,8 @@ export default function StockTable({
                 >
                   Edit
                 </Button>
-                <Button
-                  size="sm"
-                  variant="ghost"
-                  onClick={() => onDelete && onDelete(s.id)}
-                >
-                  Delete
-                </Button>
+                {/* Use the new DeleteStockButton component */}
+                <DeleteStockButton stockId={s.id} />
               </td>
             </tr>
           ))}

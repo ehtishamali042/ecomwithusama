@@ -21,7 +21,14 @@ const SUCCESS_CONFIG: ToastOptions = {
   ...DEFAULT_CONFIG,
   duration: 3000,
   icon: "✅",
-  style: { ...DEFAULT_CONFIG.style, background: "#10b981" },
+  style: {
+    ...DEFAULT_CONFIG.style,
+    background: "#e6f9ed", // light green
+    color: "#14532d", // dark green text
+    boxShadow: "0 2px 8px rgba(34,197,94,0.08)",
+    border: "1px solid #bbf7d0",
+    fontWeight: 500,
+  },
 };
 const ERROR_CONFIG: ToastOptions = {
   ...DEFAULT_CONFIG,

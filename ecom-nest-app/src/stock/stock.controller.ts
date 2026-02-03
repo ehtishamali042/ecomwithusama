@@ -90,5 +90,6 @@ export class StockController {
     @Param("id") stockId: string,
   ) {
     await this.stockService.remove(user.id, stockId);
+    return { message: "Stock deleted successfully" };
   }
 }

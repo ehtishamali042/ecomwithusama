@@ -43,11 +43,18 @@ export function useUpdateStockMutation() {
 export function useDeleteStockMutation() {
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: (id: string) => deleteStock(id),
+    mutationFn: async (id: string) => {
+      return await deleteStock(id);
+    },
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: ["stocks"] });
       notificationService.showSuccess(
         NOTIFICATION_MESSAGES.STOCK.DELETE_SUCCESS,
+      );
+    },
+    onError: (error: Error) => {
+      notificationService.showError(
+        error.message || NOTIFICATION_MESSAGES.STOCK.DELETE_ERROR,
       );
     },
   });
