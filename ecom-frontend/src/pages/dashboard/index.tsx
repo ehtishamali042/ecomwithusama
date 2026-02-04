@@ -1,4 +1,5 @@
 import { Suspense, lazy } from "react";
+import { Loader } from "@/components/ui/Loader";
 import { Routes, Route, Navigate } from "react-router-dom";
 import DashboardLayout from "@/layout/DashboardLayout";
 import ProtectedRoute from "@/pages/ProtectedRoute";
@@ -18,7 +19,7 @@ export default function DashboardRoutes() {
   return (
     <ProtectedRoute>
       <DashboardLayout>
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense fallback={<Loader />}>
           <Routes>
             <Route path="" element={<DashboardMain />} />
             <Route path="orders" element={<AllOrders />} />

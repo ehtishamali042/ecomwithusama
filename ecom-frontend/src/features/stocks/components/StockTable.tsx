@@ -1,5 +1,6 @@
 // No default React import required with the new JSX transform
 import type { Stock } from "../types";
+import { Loader } from "@/components/ui/Loader";
 import { formatCurrency } from "../utils";
 import { truncateString } from "@/utils/stringTruncate";
 import { Button } from "@/components/ui/button";
@@ -16,7 +17,12 @@ export interface StockTableProps {
 export function StockTable({ stocks = [], isLoading }: StockTableProps) {
   const navigate = useNavigate();
 
-  if (isLoading) return <div className="p-4">Loading stocks...</div>;
+  if (isLoading)
+    return (
+      <div className="p-4">
+        <Loader text="Loading stocks..." />
+      </div>
+    );
 
   return (
     <div className="overflow-x-auto">

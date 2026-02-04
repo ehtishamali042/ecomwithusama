@@ -3,6 +3,7 @@ import { Suspense, lazy } from "react";
 import { useUser } from "@/hooks/useUser";
 import { useAppInitPhase } from "@/hooks/useAppInitPhase";
 import { AppInitScreen } from "@/components/ui/AppInitScreen";
+import { Loader } from "@/components/ui/Loader";
 
 // Lazy load pages
 const LoginPage = lazy(() => import("./auth/login"));
@@ -30,7 +31,7 @@ function MainRoutes() {
   }
 
   return (
-    <Suspense fallback={<div>Loading...</div>}>
+    <Suspense fallback={<Loader size="lg" fullScreen />}>
       <Routes>
         <Route
           path="/login"
