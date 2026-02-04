@@ -16,6 +16,7 @@ function MainRoutes() {
   const location = useLocation();
   const { initPhase, phaseMessage, initUser } = useAppInitPhase();
 
+  // Block rendering until authentication check is complete
   if (initPhase === "idle" || initPhase === "authCheck") {
     return (
       <AppInitScreen
@@ -24,11 +25,14 @@ function MainRoutes() {
       />
     );
   }
+
   if (initPhase === "error") {
     return (
       <AppInitScreen phase="error" message={phaseMessage} onRetry={initUser} />
     );
   }
+
+  // After logout or when unauthenticated, initPhase will be "public"
 
   return (
     <Suspense fallback={<Loader size="lg" fullScreen />}>
